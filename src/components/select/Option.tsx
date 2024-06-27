@@ -15,7 +15,7 @@ type OptionProps = {
 
 export const Option = (props: OptionProps) => {
 	const {
-		option: { value, title, optionClassName, className },
+		option: { value, title, optionClassName, className, isUnavailable },
 		onClick,
 	} = props;
 	const optionRef = useRef<HTMLLIElement>(null);
@@ -34,9 +34,13 @@ export const Option = (props: OptionProps) => {
 
 	return (
 		<li
-			className={clsx(styles.option, styles[optionClassName || ''])}
+			className={clsx(
+				styles.option,
+				styles[optionClassName || ''],
+				isUnavailable ? styles.optionUnavailable : ''
+			)}
 			value={value}
-			onClick={handleClick(value)}
+			onClick={!isUnavailable ? handleClick(value) : undefined}
 			tabIndex={0}
 			data-testid={`select-option-${value}`}
 			ref={optionRef}>
