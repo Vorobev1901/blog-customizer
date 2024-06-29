@@ -1,6 +1,7 @@
-import { Text } from 'components/text';
+import { Text } from '../../components/text';
 
 import styles from './Button.module.scss';
+import { OnClick } from '../arrow-button/ArrowButton';
 
 export const Button = ({
 	title,
@@ -8,7 +9,7 @@ export const Button = ({
 	type,
 }: {
 	title: string;
-	onClick?: () => void;
+	onClick?: OnClick;
 	type?: React.ButtonHTMLAttributes<HTMLButtonElement>['type'];
 }) => {
 	return (

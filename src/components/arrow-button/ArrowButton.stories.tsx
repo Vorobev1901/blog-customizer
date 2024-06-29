@@ -10,10 +10,18 @@ export default meta;
 type Story = StoryObj<typeof ArrowButton>;
 
 export const ArrowButtonStory: Story = {
-	render: () => {
+	argTypes: {
+		isMenuOpen: [false, true],
+	},
+	render: (args) => {
 		return (
 			<>
-				<ArrowButton />
+				<ArrowButton
+					isMenuOpen={args.isMenuOpen}
+					toggleOpen={() => {
+						console.log(args.isMenuOpen);
+					}}
+				/>
 			</>
 		);
 	},

@@ -3,7 +3,8 @@
 	left: 0;
 	width: 616px;
 	height: 100%;
-	overflow: scroll;
+	overflow: hidden auto;
+	background-color: #ffffff;
 	transform: translate(-616px);
 	transition: transform 0.5s ease;
 }
@@ -21,8 +22,19 @@
 	height: auto;
 	min-height: 100%;
 	padding: 50px 31px;
-	background-color: #ffffff;
 	border-right: 1px solid #000000;
+}
+
+.title {
+	color: #000000;
+	font-weight: 800;
+	font-size: 31px;
+	font-family: 'Open Sans', sans-serif;
+	text-transform: uppercase;
+}
+
+.spacing {
+	margin-block-end: 50px;
 }
 
 .bottomContainer {

@@ -8,12 +8,29 @@
 	text-align: center;
 	border: 1px solid #000000;
 	cursor: pointer;
+	transition: background-color 0.3s ease;
 }
 
-.button:active {
-	background: var(--gold, #ffc802);
+.button div {
+	transition: color 0.3s ease;
 }
 
-.button:hover {
-	background: var(--gold, #ffc802);
+.button[type='submit'] {
+	background-color: var(--gold, #ffc802);
+
+	&:hover {
+		background-color: var(--gold-alt, #ffedab);
+	}
+}
+
+.button[type='reset'] {
+	background-color: #ffffff;
+
+	&:hover {
+		background-color: #000000;
+
+		div {
+			color: #ffffff;
+		}
+	}
 }

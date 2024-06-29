@@ -13,6 +13,7 @@ export type OptionType = {
 	value: string;
 	className: string;
 	optionClassName?: string;
+	isUnavailable?: boolean;
 };
 
 export const fontFamilyOptions: OptionType[] & {
@@ -170,10 +171,10 @@ export const fontSizeOptions: OptionType[] = [
 
 export const defaultArticleState = {
 	fontFamilyOption: fontFamilyOptions[0],
-	fontColor: fontColors[0],
-	backgroundColor: backgroundColors[0],
-	contentWidth: contentWidthArr[0],
+	fontColorOption: fontColors[0],
 	fontSizeOption: fontSizeOptions[0],
+	backgroundColorOption: backgroundColors[0],
+	contentWidthOption: contentWidthArr[0],
 };
 
 export type ArticleStateType = typeof defaultArticleState;
