@@ -11,15 +11,15 @@ type Story = StoryObj<typeof ArrowButton>;
 
 export const ArrowButtonStory: Story = {
 	argTypes: {
-		isOpen: [false, true],
+		isMenuOpen: [false, true],
 	},
 	render: (args) => {
 		return (
 			<>
 				<ArrowButton
-					isOpen={args.isOpen}
+					isMenuOpen={args.isMenuOpen}
 					toggleOpen={() => {
-						console.log(args.isOpen);
+						console.log(args.isMenuOpen);
 					}}
 				/>
 			</>

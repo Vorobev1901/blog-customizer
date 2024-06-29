@@ -1,9 +1,10 @@
-import arrow from 'src/images/arrow.svg';
+import arrow from '../../images/arrow.svg';
 import { FormEvent } from 'react';
 
 import styles from './ArrowButton.module.scss';
 import cn from 'classnames';
-import { FormProps } from 'src/index';
+import { FormProps } from '../article-params-form/ArticleParamsForm';
+
 /** Функция для обработки открытия/закрытия формы */
 export type OnClick = () => void;
 export type OnClickSubmit = (
@@ -12,12 +13,12 @@ export type OnClickSubmit = (
 ) => void;
 
 export type ArrowButtonProps = {
-	isOpen: boolean;
+	isMenuOpen: boolean;
 	toggleOpen: OnClick;
 };
 
 export const ArrowButton = (props: ArrowButtonProps) => {
-	const { isOpen, toggleOpen } = props;
+	const { isMenuOpen, toggleOpen } = props;
 
 	return (
 		/* Не забываем указаывать role и aria-label атрибуты для интерактивных элементов */
@@ -25,12 +26,12 @@ export const ArrowButton = (props: ArrowButtonProps) => {
 			role='button'
 			aria-label='Открыть/Закрыть форму параметров статьи'
 			tabIndex={0}
-			className={cn(styles.container, isOpen ? styles.container_open : '')}
+			className={cn(styles.container, isMenuOpen ? styles.container_open : '')}
 			onClick={toggleOpen}>
 			<img
 				src={arrow}
 				alt='иконка стрелочки'
-				className={cn(styles.arrow, isOpen ? styles.arrow_open : '')}
+				className={cn(styles.arrow, isMenuOpen ? styles.arrow_open : '')}
 			/>
 		</div>
 	);

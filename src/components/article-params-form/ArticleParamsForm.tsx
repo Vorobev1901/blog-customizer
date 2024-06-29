@@ -1,10 +1,10 @@
-import { ArrowButton } from 'components/arrow-button';
-import { Button } from 'components/button';
-import { useEffect, useState, useRef } from 'react';
+import { ArrowButton } from '../../components/arrow-button';
+import { Button } from '../../components/button';
+import { useState, useRef, CSSProperties, FormEvent } from 'react';
 import cn from 'classnames';
 
 import styles from './ArticleParamsForm.module.scss';
-import { OnClick, OnClickSubmit } from '../arrow-button/ArrowButton';
+import { OnClick } from '../arrow-button/ArrowButton';
 import { Select } from '../select';
 import {
 	OptionType,
@@ -13,14 +13,17 @@ import {
 	backgroundColors,
 	fontColors,
 	contentWidthArr,
-} from 'src/constants/articleProps';
+	defaultArticleState,
+} from '../../constants/articleProps';
 import { RadioGroup } from '../radio-group';
 import { Separator } from '../separator';
 import { useOutsideClick } from './hooks/useOutsideClick';
 
 type ArticleProps = {
-	handleSubmit: OnClickSubmit;
-	handleReset: OnClick;
+	setVariablesStyles: React.Dispatch<React.SetStateAction<CSSProperties>>;
+};
+
+export type FormProps = {
 	fontFamily: OptionType;
 	fontSize: OptionType;
 	textColor: OptionType;
@@ -29,37 +32,72 @@ type ArticleProps = {
 };
 
 export const ArticleParamsForm = (props: ArticleProps) => {
-	const [isOpen, setIsOpen] = useState<boolean>(true);
+	const {
+		fontFamilyOption,
+		fontSizeOption,
+		backgroundColorOption,
+		fontColorOption,
+		contentWidthOption,
+	} = defaultArticleState;
 
-	const [fontFamily, setFontFamily] = useState<OptionType>(props.fontFamily);
-	const [fontSize, setFontSize] = useState<OptionType>(props.fontSize);
-	const [textColor, setTextColor] = useState<OptionType>(props.textColor);
+	const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
+
+	const [fontFamily, setFontFamily] = useState<OptionType>(fontFamilyOption);
+	const [fontSize, setFontSize] = useState<OptionType>(fontSizeOption);
+	const [textColor, setTextColor] = useState<OptionType>(fontColorOption);
 	const [backgroundColor, setBackgroundColor] = useState<OptionType>(
-		props.backgroundColor
+		backgroundColorOption
 	);
-	const [contentWidth, setContentWidth] = useState<OptionType>(
-		props.contentWidth
-	);
+	const [contentWidth, setContentWidth] =
+		useState<OptionType>(contentWidthOption);
 
 	const sidebarRef = useRef<HTMLDivElement | null>(null);
 
-	useEffect(() => {
-		setFontFamily(props.fontFamily);
-		setFontSize(props.fontSize);
-		setTextColor(props.textColor);
-		setBackgroundColor(props.backgroundColor);
-		setContentWidth(props.contentWidth);
-	}, [props]);
+	const handleSubmit = (
+		event: FormEvent<HTMLFormElement>,
+		{
+			fontFamily,
+			fontSize,
+			textColor,
+			backgroundColor,
+			contentWidth,
+		}: FormProps
+	): void => {
+		event.preventDefault();
+		props.setVariablesStyles({
+			'--font-family': fontFamily.value,
+			'--font-size': fontSize.value,
+			'--font-color': textColor.value,
+			'--container-width': contentWidth.value,
+			'--bg-color': backgroundColor.value,
+		} as CSSProperties);
+	};
+
+	const handleReset = (): void => {
+		setFontFamily(fontFamilyOption);
+		setFontSize(fontSizeOption);
+		setTextColor(fontColorOption);
+		setBackgroundColor(backgroundColorOption);
+		setContentWidth(contentWidthOption);
+
+		props.setVariablesStyles({
+			'--font-family': fontFamilyOption.value,
+			'--font-size': fontSizeOption.value,
+			'--font-color': fontColorOption.value,
+			'--container-width': contentWidthOption.value,
+			'--bg-color': backgroundColorOption.value,
+		} as CSSProperties);
+	};
 
 	const toggleOpen: OnClick = () => {
-		setIsOpen(!isOpen);
+		setIsMenuOpen(!isMenuOpen);
 	};
 
 	const OnClose = (): void => {
-		setIsOpen(false);
+		setIsMenuOpen(false);
 	};
 
-	useOutsideClick({ rootRef: sidebarRef, OnClose });
+	useOutsideClick({ isMenuOpen, rootRef: sidebarRef, OnClose });
 
 	const changeFontFamily = (font: OptionType): void => {
 		setFontFamily(font);
@@ -83,13 +121,16 @@ export const ArticleParamsForm = (props: ArticleProps) => {
 
 	return (
 		<div ref={sidebarRef}>
-			<ArrowButton isOpen={isOpen} toggleOpen={toggleOpen} />
+			<ArrowButton isMenuOpen={isMenuOpen} toggleOpen={toggleOpen} />
 			<aside
-				className={cn(styles.container, isOpen ? styles.container_open : '')}>
+				className={cn(
+					styles.container,
+					isMenuOpen ? styles.container_open : ''
+				)}>
 				<form
 					className={styles.form}
 					onSubmit={(e) =>
-						props.handleSubmit(e, {
+						handleSubmit(e, {
 							fontFamily,
 							fontSize,
 							textColor,
@@ -157,7 +198,7 @@ export const ArticleParamsForm = (props: ArticleProps) => {
 						/>
 					</div>
 					<div className={styles.bottomContainer}>
-						<Button title='Сбросить' type='reset' onClick={props.handleReset} />
+						<Button title='Сбросить' type='reset' onClick={handleReset} />
 						<Button title='Применить' type='submit' />
 					</div>
 				</form>

@@ -1,12 +1,19 @@
 import { useEffect } from 'react';
 
 type UseOutsideClick = {
+	isMenuOpen: boolean;
 	OnClose: () => void;
 	rootRef: React.RefObject<HTMLDivElement>;
 };
 
-export const useOutsideClick = ({ rootRef, OnClose }: UseOutsideClick) => {
+export const useOutsideClick = ({
+	isMenuOpen,
+	rootRef,
+	OnClose,
+}: UseOutsideClick) => {
 	useEffect(() => {
+		if (!isMenuOpen) return;
+
 		const handleOutsideClick = (event: Event) => {
 			const { target } = event;
 
@@ -20,5 +27,5 @@ export const useOutsideClick = ({ rootRef, OnClose }: UseOutsideClick) => {
 		return () => {
 			window.removeEventListener('mousedown', handleOutsideClick);
 		};
-	}, [rootRef]);
+	}, [rootRef, isMenuOpen]);
 };
